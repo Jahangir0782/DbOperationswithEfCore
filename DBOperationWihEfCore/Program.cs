@@ -12,11 +12,11 @@ namespace DBOperationWihEfCore
             var builder = WebApplication.CreateBuilder(args);
 
             // Adding Connection String
-            builder.Services.AddDbContext<AppDbContext>(Options => Options.UseSqlServer(builder.Configuration.GetConnectionString("Constr")));
+            builder.Services.AddDbContext<AppDbContext>(Options => Options.UseSqlServer(builder.Configuration.GetConnectionString("Constr")).LogTo(Console.WriteLine));
 
 
             // Add services to the container.
-
+            builder.Services.AddSwaggerGen();
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
@@ -29,11 +29,11 @@ namespace DBOperationWihEfCore
                 app.MapOpenApi();
             }
 
+            app.UseSwagger();
+            app.UseSwaggerUI();
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
-
             app.MapControllers();
 
             app.Run();
